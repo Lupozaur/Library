@@ -10,7 +10,6 @@ public class LibraryApp {
 		LibraryControl libContr = new LibraryControl();
 		libContr.controlLoop();
 
-		System.out.println("test");
 
 	}
 
