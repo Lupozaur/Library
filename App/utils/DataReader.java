@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import data.Book;
@@ -17,9 +18,16 @@ public class DataReader {
 		sc.close();
 	}
 
-	public int getInt() {
-		int number = sc.nextInt();
-		sc.nextLine();
+	public int getInt() throws NumberFormatException{
+		int number = 0;
+		try {
+			number = sc.nextInt();
+		}catch(InputMismatchException e) {
+			throw new NumberFormatException("Liczba wprowadzona w niepoprawnej formie.");
+		}finally {
+			sc.nextLine();
+		}
+		
 		return number;
 	}
 

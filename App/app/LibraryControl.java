@@ -1,13 +1,17 @@
 package app;
 
 import utils.DataReader;
+import utils.LibraryUtils;
+
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
+
 import data.Book;
 import data.Library;
 import data.Magazine;
 
 public class LibraryControl {
 
-	
 	// zmienna do komunikacji z użytkownikiem
 	private DataReader dataReader;
 
@@ -24,27 +28,33 @@ public class LibraryControl {
 	 */
 
 	public void controlLoop() {
-		Option option;
-		printOptions();
-		while ((option = Option.createFromInt(dataReader.getInt())) != Option.EXIT) {
-			switch (option) {
-			case ADD_BOOK:
-				addBook();
-				break;
-			case ADD_MAGAZINE:
-				addMagazine();
-				break;
-			case PRINT_BOOKS:
-				printBooks();
-				break;
-			case PRINT_MAGAZINES:
-				printMagazine();
-				break;
-			case EXIT:
-				System.out.println("Zamykam progam!");
-				break;
+		Option option = null;
+		while (option != Option.EXIT) {
+			try {
+				printOptions();
+				option = Option.createFromInt(dataReader.getInt());
+				switch (option) {
+				case ADD_BOOK:
+					addBook();
+					break;
+				case ADD_MAGAZINE:
+					addMagazine();
+					break;
+				case PRINT_BOOKS:
+					printBooks();
+					break;
+				case PRINT_MAGAZINES:
+					printMagazine();
+					break;
+				case EXIT:
+					System.out.println("Zamykam progam!");
+					break;
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Wprowadzono niepoprawne dane, publikacji nie dodano.");
+			} catch (NumberFormatException | NoSuchElementException e) {
+				System.out.println("Wybrana opcja nie istnieje, wybierz ponownie.");
 			}
-			printOptions();
 		}
 		// zamykam strumien wejscia
 		dataReader.close();
@@ -52,7 +62,7 @@ public class LibraryControl {
 
 	private void printOptions() {
 		System.out.println("Wybierz opcje");
-		for(Option o : Option.values())
+		for (Option o : Option.values())
 			System.out.println(o);
 	}
 
@@ -62,7 +72,7 @@ public class LibraryControl {
 	}
 
 	private void printBooks() {
-		library.printBooks();
+		LibraryUtils.printBooks(library);
 	}
 
 	private void addMagazine() {
@@ -71,7 +81,7 @@ public class LibraryControl {
 	}
 
 	private void printMagazine() {
-		library.printMagazines();
+		LibraryUtils.printBooks(library);
 	}
 
 }
